@@ -7,11 +7,11 @@ import static recursivedescent.RdpCharacterHelper.isNumber;
  * Created by ram on 10/7/17.
  */
 public class RdpCalculator {
-    private int currentPosition = -1, currentChar = -1;
-    private String mainExpression;
-    private String invalidText="";
+    private static int currentPosition = -1, currentChar = -1;
+    private static String mainExpression;
+    private static String invalidText="";
 
-    public String evaluate(String expression) throws RuntimeException{
+    public static String evaluate(String expression) throws RuntimeException{
         if(expression==null || expression.trim().length() == 0)
             throw new RuntimeException("Wrong mathematical expression. your expression is null or empty");
         expression = expression.toLowerCase();
@@ -22,7 +22,7 @@ public class RdpCalculator {
         return Double.toString(parseExpression());
     }
 
-    private void nextChar() {
+    private static void nextChar() {
         currentPosition++;
         if(currentPosition < mainExpression.length()) {
             currentChar = mainExpression.charAt(currentPosition);
@@ -37,7 +37,7 @@ public class RdpCalculator {
     // factor = `+` factor | `-` factor | `(` expression `)`
     //        | number | functionName factor
 
-    private double parseExpression() {
+    private static double parseExpression() {
         double value = parseTerm();
         while(true) {
             if      (goToNextIfCurrentIndexIsEqual('+')) value += parseTerm();
@@ -47,7 +47,7 @@ public class RdpCalculator {
         }
     }
 
-    private double parseTerm() {
+    private static double parseTerm() {
         double value = parseFactor();
         while (true){
             if      (goToNextIfCurrentIndexIsEqual('*')) value *= parseFactor();
@@ -56,7 +56,7 @@ public class RdpCalculator {
         }
     }
 
-    private double parseFactor() {
+    private static double parseFactor() {
         if (goToNextIfCurrentIndexIsEqual('+')) return parseFactor();
         if (goToNextIfCurrentIndexIsEqual('-')) return -parseFactor();
         double value;
@@ -89,7 +89,7 @@ public class RdpCalculator {
     }
 
 
-    private boolean goToNextIfCurrentIndexIsEqual(char c){
+    private static boolean goToNextIfCurrentIndexIsEqual(char c){
         if(currentChar == c){
             nextChar();
             return true;
